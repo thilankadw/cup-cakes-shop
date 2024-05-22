@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "220243868579",
+    "project_id": "deliverydelight-9ef6d",
+    "storage_bucket": "deliverydelight-9ef6d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:220243868579:android:fb7e9144db55c08e2c7816",
+        "android_client_info": {
+          "package_name": "com.example.cupcakesshop"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAkHbJ_AFb-t40Vs4Fq0VfL8xqf6c0c2pk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

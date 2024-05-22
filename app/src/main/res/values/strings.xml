@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Cupcakes Shop</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="order_status_options">
+        <item>Pending</item>
+        <item>Processing</item>
+        <item>Delivered</item>
+        <item>Completed</item>
+    </string-array>
+
 </resources>

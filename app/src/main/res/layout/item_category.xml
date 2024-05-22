@@ -1,0 +1,15 @@
+<!-- item_category.xml -->
+
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/categoryName"
+    android:layout_width="170dp"
+    android:layout_height="170dp"
+    android:padding="16dp"
+    android:textAlignment="center"
+    android:gravity="center"
+    android:textColorHint="@color/white"
+    android:layout_marginBottom="10dp"
+    android:background="@drawable/category_background"
+    android:textColor="@color/white"
+    android:fontWeight="700"
+    android:textSize="30dp" />

@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="132dp"
-        android:layout_marginBottom="36dp"
+        android:layout_marginBottom="112dp"
         android:foregroundTint="@color/chromeyellow"
         android:text="Register"
         android:textColor="@color/chromeyellow"
@@ -22,15 +22,28 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
+        android:id="@+id/reguname"
+        android:layout_width="287dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="288dp"
+        android:background="@drawable/rounded_border"
+        android:hint="User Name"
+        android:inputType="text"
+        android:paddingLeft="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
         android:id="@+id/regemail"
         android:layout_width="287dp"
         android:layout_height="56dp"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="288dp"
+        android:layout_marginTop="372dp"
         android:background="@drawable/rounded_border"
         android:hint="Email"
         android:inputType="text"
         android:paddingLeft="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -38,12 +51,12 @@
         android:id="@+id/regpassword"
         android:layout_width="287dp"
         android:layout_height="56dp"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="28dp"
         android:background="@drawable/rounded_border"
         android:hint="Password"
         android:inputType="text"
         android:paddingLeft="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/regemail" />
 
@@ -51,42 +64,33 @@
         android:id="@+id/regbtn"
         android:layout_width="287dp"
         android:layout_height="56dp"
-        android:layout_marginStart="60dp"
         android:layout_marginTop="52dp"
         android:backgroundTint="@color/chromeyellow"
         android:text="Register"
         android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/regpassword" />
-
-    <TextView
-        android:id="@+id/regpagetext"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:layout_marginEnd="60dp"
-        android:text="Already have an account?"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/regbtn" />
 
     <Button
         android:id="@+id/regtologinisterbtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="60dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="40dp"
         android:backgroundTint="@color/white"
         android:text="Login"
         android:textColor="@color/black"
+        android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/regpagetext" />
+        app:layout_constraintTop_toBottomOf="@+id/regbtn" />
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="130dp"
         android:layout_height="107dp"
         android:layout_marginStart="140dp"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="64dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/cupcakelogo" />

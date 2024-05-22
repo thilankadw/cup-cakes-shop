@@ -1,11 +1,14 @@
 package com.example.cupcakesshop;
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +42,8 @@ import java.util.List;
 
 public class AdminCupcakeFragment extends Fragment {
 
+    private ArrayList<Cupcake> cupcakes = new ArrayList<>();
+
     private static final int PICK_IMAGE_REQUEST = 1;
     private Uri imageUri;
 
@@ -48,9 +53,11 @@ public class AdminCupcakeFragment extends Fragment {
     private ImageView cupcakeImageView;
     private Button selectImageButton;
     private Button addcategorybtn;
-
+    private AdminCupcakeListAdapter adapter;
     private DatabaseReference databaseCategories;
+    private DatabaseReference databaseCupcakes;
     private StorageReference storageReference;
+
 
     public AdminCupcakeFragment() {
         // Required empty public constructor
@@ -121,6 +128,36 @@ public class AdminCupcakeFragment extends Fragment {
             }
         }
     }
+
+    private void initializeCupcakes() {
+        cupcakes = new ArrayList<>();
+        if (databaseCupcakes != null) {
+            databaseCupcakes.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    cupcakes.clear();
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        Cupcake cupcake = snapshot.getValue(Cupcake.class);
+                        if (cupcake != null) {
+                            cupcake.setImageUrl(snapshot.child("imageUrl").getValue(String.class));
+                            cupcakes.add(cupcake);
+                        }
+                    }
+                    if (adapter != null) {
+                        adapter.notifyDataSetChanged();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    // Handle possible errors.
+                }
+            });
+        } else {
+            Log.e(TAG, "initializeCupcakes: DatabaseReference is null");
+        }
+    }
+
 
     private void loadCategoriesIntoSpinner() {
         databaseCategories.addValueEventListener(new ValueEventListener() {

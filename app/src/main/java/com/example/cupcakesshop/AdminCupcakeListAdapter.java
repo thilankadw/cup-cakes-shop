@@ -41,19 +41,16 @@ public class AdminCupcakeListAdapter extends RecyclerView.Adapter<AdminCupcakeLi
     public static class CupcakeViewHolder extends RecyclerView.ViewHolder {
         private TextView name;
         private TextView price;
-        private ImageView image;
 
         public CupcakeViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.name);
             price = itemView.findViewById(R.id.price);
-            image = itemView.findViewById(R.id.image);
         }
 
         public void bind(Cupcake cupcake) {
             name.setText(cupcake.getName());
-            price.setText(cupcake.getPrice());
-            Picasso.get().load(Uri.parse((String) cupcake.getImageUrl())).into(image);
+            price.setText(String.valueOf(cupcake.getPrice()));
         }
     }
 }

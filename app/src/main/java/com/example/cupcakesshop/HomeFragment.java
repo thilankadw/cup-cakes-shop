@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,7 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-
+import android.content.Intent;
 public class HomeFragment extends Fragment {
 
     private ArrayList<Category> categories = new ArrayList<>();
@@ -61,6 +62,14 @@ public class HomeFragment extends Fragment {
 
         // Load username from Firebase
         loadUsernameFromFirebase();
+
+        Button signOutButton = view.findViewById(R.id.logooutbtn);
+        signOutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signOut();
+            }
+        });
 
         return view;
     }
@@ -108,4 +117,12 @@ public class HomeFragment extends Fragment {
             });
         }
     }
+
+    private void signOut() {
+        FirebaseAuth.getInstance().signOut();
+        Intent intent = new Intent(getActivity(), LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
+
 }

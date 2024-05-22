@@ -5,19 +5,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class AdminOrderFragment extends Fragment {
 
@@ -26,10 +30,8 @@ public class AdminOrderFragment extends Fragment {
     private DatabaseReference ordersRef;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.fragment_orders, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_admin_order, container, false);
 
         orders = new ArrayList<>();
         adapter = new AdminOrderAdapter(getContext(), orders);
@@ -50,19 +52,20 @@ public class AdminOrderFragment extends Fragment {
     private void loadOrders() {
         ordersRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 orders.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Order order = snapshot.getValue(Order.class);
-                    orders.add(order);
+                    if (order != null) {
+                        orders.add(order);
+                    }
                 }
                 adapter.notifyDataSetChanged();
             }
-
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Handle errors
+            public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
     }
+
 }

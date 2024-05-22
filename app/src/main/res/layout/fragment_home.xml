@@ -23,13 +23,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/homelogo"
-            android:layout_width="91dp"
-            android:layout_height="52dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="4dp"
-            android:src="@drawable/cupcakelogo"
+        <Button
+            android:id="@+id/logooutbtn"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="@color/chromeyellow"
+            android:text="Sign Out"
+            android:textSize="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

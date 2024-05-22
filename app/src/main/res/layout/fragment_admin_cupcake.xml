@@ -121,40 +121,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/selectCategoryLabel" />
 
-            <TextView
-                android:id="@+id/imageLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="36dp"
-                android:text="Cupcake Image"
-                android:textSize="25dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/categorySpinner" />
-
-            <ImageView
-                android:id="@+id/cupcakeImageView"
-                android:layout_width="287dp"
-                android:layout_height="287dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/rounded_border"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageLabel" />
-
-            <Button
-                android:id="@+id/selectImageButton"
-                android:layout_width="287dp"
-                android:layout_height="56dp"
-                android:layout_marginTop="16dp"
-                android:backgroundTint="@color/chromeyellow"
-                android:text="Select Image"
-                android:textSize="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cupcakeImageView" />
-
             <Button
                 android:id="@+id/addcategorybtn"
                 android:layout_width="287dp"
@@ -166,7 +132,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.489"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/selectImageButton" />
+                app:layout_constraintTop_toBottomOf="@+id/selectCategoryLabel" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -83,18 +84,11 @@ public class AdminCupcakeFragment extends Fragment {
         categoryname = view.findViewById(R.id.categoryname);
         price = view.findViewById(R.id.price);
         categorySpinner = view.findViewById(R.id.categorySpinner);
-        cupcakeImageView = view.findViewById(R.id.cupcakeImageView);
-        selectImageButton = view.findViewById(R.id.selectImageButton);
         addcategorybtn = view.findViewById(R.id.addcategorybtn);
 
         loadCategoriesIntoSpinner();
 
-        selectImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openFileChooser();
-            }
-        });
+
 
         addcategorybtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,52 +104,29 @@ public class AdminCupcakeFragment extends Fragment {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK
-                && data != null && data.getData() != null) {
-            imageUri = data.getData();
 
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), imageUri);
-                cupcakeImageView.setImageBitmap(bitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
+    private void loadCupcakesFromFirebase(DatabaseReference databaseReference, List<Cupcake> cupcakes, AdminCupcakeListAdapter adapter) {
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                cupcakes.clear();
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    Cupcake cupcake = postSnapshot.getValue(Cupcake.class);
+                    if (cupcake != null) {
+                        cupcakes.add(cupcake);
+                    }
+                }
+                adapter.notifyDataSetChanged();
             }
-        }
-    }
 
-    private void initializeCupcakes() {
-        cupcakes = new ArrayList<>();
-        if (databaseCupcakes != null) {
-            databaseCupcakes.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    cupcakes.clear();
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        Cupcake cupcake = snapshot.getValue(Cupcake.class);
-                        if (cupcake != null) {
-                            cupcake.setImageUrl(snapshot.child("imageUrl").getValue(String.class));
-                            cupcakes.add(cupcake);
-                        }
-                    }
-                    if (adapter != null) {
-                        adapter.notifyDataSetChanged();
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                    // Handle possible errors.
-                }
-            });
-        } else {
-            Log.e(TAG, "initializeCupcakes: DatabaseReference is null");
-        }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle possible errors.
+                Toast.makeText(getContext(), "Failed to load categories", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 
@@ -187,43 +158,22 @@ public class AdminCupcakeFragment extends Fragment {
         final String priceValue = price.getText().toString().trim();
         final String category = categorySpinner.getSelectedItem().toString();
 
-        if (name.isEmpty() || priceValue.isEmpty() || imageUri == null) {
+        if (name.isEmpty() || priceValue.isEmpty()) {
             Toast.makeText(getActivity(), "All fields are required", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        StorageReference fileReference = storageReference.child(System.currentTimeMillis() + ".jpg");
-
-        fileReference.putFile(imageUri)
-                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-                                String imageUrl = uri.toString();
-                                float price = Float.parseFloat(priceValue);
-                                Cupcake cupcake = new Cupcake(name, category, price, imageUrl);
-                                String uploadId = databaseCategories.push().getKey();
-                                databaseCategories.child(uploadId).setValue(cupcake);
-                                Toast.makeText(getActivity(), "Cupcake added successfully", Toast.LENGTH_SHORT).show();
-                                clearFields();
-                            }
-                        });
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getActivity(), "Failed to upload image", Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
-
-    private void clearFields() {
-        categoryname.setText("");
-        price.setText("");
-        cupcakeImageView.setImageResource(0);
-        categorySpinner.setSelection(0);
+        String id = databaseCupcakes.push().getKey();
+        Cupcake cupcake = new Cupcake(name, category, Float.parseFloat(priceValue));
+        databaseCupcakes.child(id).setValue(cupcake).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Toast.makeText(getContext(), "Cupcake added", Toast.LENGTH_SHORT).show();
+                categoryname.setText("");
+                price.setText("");
+                categorySpinner.setSelection(0);
+            } else {
+                Toast.makeText(getContext(), "Failed to add category", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

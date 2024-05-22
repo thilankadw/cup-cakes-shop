@@ -1,5 +1,6 @@
 package com.example.cupcakesshop;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -43,7 +44,7 @@ public class OrderPageFragment extends Fragment {
 
         if (getArguments() != null) {
             cupcake = (Cupcake) getArguments().getSerializable(ARG_CUPCAKE);
-            productPrice = Float.parseFloat(cupcake.getPrice());
+            productPrice = cupcake.getPrice();
         }
 
         TextView productName = view.findViewById(R.id.product_name);
@@ -145,7 +146,7 @@ public class OrderPageFragment extends Fragment {
             ordersRef.child(orderId).setValue(order).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     Toast.makeText(getActivity(), "Order placed successfully", Toast.LENGTH_SHORT).show();
-                    // Navigate to a confirmation page or clear the form
+                    ((HomeActivity) getActivity()).replaceWithHomeFragment();
                 } else {
                     Toast.makeText(getActivity(), "Failed to place order", Toast.LENGTH_SHORT).show();
                 }

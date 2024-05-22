@@ -31,8 +31,6 @@ public class HomeActivity extends AppCompatActivity {
                     selectedFragment = new HomeFragment();
                 } else if (item.getItemId() == R.id.navigation_orders) {
                     selectedFragment = new OrdersFragment();
-                }  else if (item.getItemId() == R.id.navigation_profile) {
-                    selectedFragment = new ProfileFragment();
                 }
                 if (selectedFragment != null) {
                     replaceFragment(selectedFragment);
@@ -66,5 +64,9 @@ public class HomeActivity extends AppCompatActivity {
                 .replace(R.id.fragment_container, fragment)
                 .addToBackStack(null)
                 .commit();
+    }
+
+    public void replaceWithHomeFragment() {
+        replaceFragment(new HomeFragment());
     }
 }

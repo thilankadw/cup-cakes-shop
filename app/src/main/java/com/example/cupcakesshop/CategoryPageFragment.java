@@ -45,35 +45,69 @@ public class CategoryPageFragment extends Fragment {
         if (getArguments() != null) {
             category = (Category) getArguments().getSerializable(ARG_CATEGORY);
             databaseCupcakes = FirebaseDatabase.getInstance().getReference("cupcakes");
-            initializeCupcakes(category.getName());
         } else {
             Log.e(TAG, "onCreate: getArguments() is null");
         }
     }
 
-    private void initializeCupcakes(String selectedCategory) {
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_category_page, container, false);
+
+        TextView categoryTitle = view.findViewById(R.id.category_title);
+        categoryTitle.setText(category.getName() + " Cupcakes");
+
+        RecyclerView recyclerView = view.findViewById(R.id.cupcakesRecyclerView);
         cupcakes = new ArrayList<>();
+        Log.d(TAG, "Cupcake 1 ");
+        adapter = new CupcakeAdapter(cupcakes, cupcake -> {
+            Log.d(TAG, "Cupcake 2 ");
+            // Navigate to the order page with the selected cupcake details
+            OrderPageFragment orderPageFragment = OrderPageFragment.newInstance(cupcake);
+            Log.d(TAG, "Cupcake 3 ");
+            ((HomeActivity) requireActivity()).replaceOrderPageFragment(orderPageFragment);
+            Log.d(TAG, "Cupcake 4 ");
+        });
+        recyclerView.setAdapter(adapter);
+        Log.d(TAG, "Cupcake 5 ");
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        Log.d(TAG, "Cupcake 6 ");
+        initializeCupcakes(category.getName());
+        Log.d(TAG, "Cupcake 7 ");
+
+        return view;
+    }
+
+    private void initializeCupcakes(String selectedCategory) {
         if (databaseCupcakes != null) {
+            Log.d(TAG, "Cupcake 8 ");
             databaseCupcakes.orderByChild("category").equalTo(selectedCategory)
                     .addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            Log.d(TAG, "Cupcake 9 ");
                             cupcakes.clear();
                             for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                Log.d(TAG, "Cupcake 10 ");
                                 Cupcake cupcake = snapshot.getValue(Cupcake.class);
                                 if (cupcake != null) {
-                                    cupcake.setImageUrl(snapshot.child("imageUrl").getValue(String.class));
+                                    // Log all attributes of the cupcake
+                                    Log.d(TAG, "Cupcake Name: " + cupcake.getName());
+                                    Log.d(TAG, "Cupcake Category: " + cupcake.getCategory());
+                                    Log.d(TAG, "Cupcake Price: " + cupcake.getPrice());
+
                                     cupcakes.add(cupcake);
+                                }else {
+                                    Log.d(TAG, "Cupcake Null ");
                                 }
                             }
-                            if (adapter != null) {
-                                adapter.notifyDataSetChanged();
-                            }
+                            adapter.notifyDataSetChanged();
                         }
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
-                            // Handle possible errors.
+                            Log.e(TAG, "Database error: " + databaseError.getMessage());
                         }
                     });
         } else {
@@ -81,23 +115,5 @@ public class CategoryPageFragment extends Fragment {
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_category_page, container, false);
-
-        TextView categoryTitle = view.findViewById(R.id.category_title);
-        categoryTitle.setText(category.getName() + " Cupcakes");
-
-        RecyclerView recyclerView = view.findViewById(R.id.cupcakesRecyclerView);
-        adapter = new CupcakeAdapter(cupcakes, cupcake -> {
-            // Navigate to the order page with the selected cupcake details
-            OrderPageFragment orderPageFragment = OrderPageFragment.newInstance(cupcake);
-            ((HomeActivity) requireActivity()).replaceOrderPageFragment(orderPageFragment);
-        });
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        return view;
-    }
 }
+

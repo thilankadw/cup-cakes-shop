@@ -14,7 +14,6 @@ tools:context=".AdminOrderFragment">
             android:id="@+id/textView2"
             android:layout_width="174dp"
             android:layout_height="48dp"
-            android:layout_marginTop="16dp"
             android:text="All Orders"
             android:textColor="@color/chromeyellow"
             android:textSize="30dp"

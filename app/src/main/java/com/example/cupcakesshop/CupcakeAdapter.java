@@ -1,6 +1,7 @@
 package com.example.cupcakesshop;
 
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,19 +48,20 @@ public class CupcakeAdapter extends RecyclerView.Adapter<CupcakeAdapter.CupcakeV
     public static class CupcakeViewHolder extends RecyclerView.ViewHolder {
         private TextView name;
         private TextView price;
-        private ImageView image;
 
         public CupcakeViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.name);
             price = itemView.findViewById(R.id.price);
-            image = itemView.findViewById(R.id.image);
         }
 
         public void bind(Cupcake cupcake) {
+            Log.d("CupcakeAdapter", "Cupcake Name: " + cupcake.getName());
+            Log.d("CupcakeAdapter", "Cupcake Price: " + cupcake.getPrice());
+
             name.setText(cupcake.getName());
-            price.setText(cupcake.getPrice());
-            Picasso.get().load(Uri.parse((String) cupcake.getImageUrl())).into(image);
+            price.setText(String.valueOf(cupcake.getPrice()));
+
         }
     }
 }

@@ -58,7 +58,6 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
             orderQuantity = itemView.findViewById(R.id.orderQuantity);
             orderTotal = itemView.findViewById(R.id.orderTotal);
             orderStatus = itemView.findViewById(R.id.orderStatus);
-            orderDate = itemView.findViewById(R.id.orderDate);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -78,9 +77,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
             orderName.setText(order.getName());
             orderCategory.setText(order.getCategory());
             orderQuantity.setText(String.valueOf(order.getQuantity()));
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
             orderTotal.setText(String.valueOf(order.getPrice()));
-            orderDate.setText(sdf.format(order.getDate()));
             orderStatus.setText((order.getStatus()));
         }
     }

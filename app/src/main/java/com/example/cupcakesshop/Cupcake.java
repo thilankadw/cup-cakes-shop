@@ -1,44 +1,44 @@
 package com.example.cupcakesshop;
-
 import java.io.Serializable;
 
 public class Cupcake implements Serializable {
+    private String name;
+    private String category;
+    private float price;
 
-    public String name;
-    public String category;
-    public Float price;
-    public String imageUrl;
+    public Cupcake() {
+        // Default constructor required for calls to DataSnapshot.getValue(Cupcake.class)
+    }
 
-    public Cupcake() { }
-
-    public Cupcake(String name, String category, Float price, String imageUrl){
+    public Cupcake(String name, String category, float price) {
         this.name = name;
         this.category = category;
         this.price = price;
-        this.imageUrl = imageUrl;
     }
 
+    // Getters and setters
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getCategory() {
         return category;
     }
 
-    public String getPrice() {
-        return String.format("%.2f", price);
+    public void setCategory(String category) {
+        this.category = category;
     }
 
-    public String getImageId() {
-        return imageUrl;
+    public float getPrice() {
+        return price;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setPrice(float price) {
+        this.price = price;
     }
 
-    public Object getImageUrl() {
-        return this.imageUrl;
-    }
 }

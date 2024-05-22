@@ -12,7 +12,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -42,12 +44,10 @@ public class AdminOrderAdapter extends RecyclerView.Adapter<AdminOrderAdapter.Vi
         holder.orderCategory.setText(order.getCategory());
         holder.orderQuantity.setText(String.valueOf(order.getQuantity()));
         holder.orderTotal.setText(String.valueOf(order.getPrice()));
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        holder.orderDate.setText(sdf.format(order.getDate()));
-        // Set selected status
         int statusPosition = getStatusPosition(order.getStatus());
         holder.orderStatusSpinner.setSelection(statusPosition);
     }
+
 
     @Override
     public int getItemCount() {
@@ -60,7 +60,6 @@ public class AdminOrderAdapter extends RecyclerView.Adapter<AdminOrderAdapter.Vi
         TextView orderCategory;
         TextView orderQuantity;
         TextView orderTotal;
-        TextView orderDate;
         Spinner orderStatusSpinner;
 
         public ViewHolder(@NonNull View itemView) {
@@ -70,7 +69,6 @@ public class AdminOrderAdapter extends RecyclerView.Adapter<AdminOrderAdapter.Vi
             orderCategory = itemView.findViewById(R.id.orderCategory);
             orderQuantity = itemView.findViewById(R.id.orderQuantity);
             orderTotal = itemView.findViewById(R.id.orderTotal);
-            orderDate = itemView.findViewById(R.id.orderDate);
             orderStatusSpinner = itemView.findViewById(R.id.orderStatusSpinner);
             ArrayAdapter<String> statusAdapter = new ArrayAdapter<>(itemView.getContext(), android.R.layout.simple_spinner_item, statusOptions);
             statusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
